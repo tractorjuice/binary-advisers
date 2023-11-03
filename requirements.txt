@@ -1,0 +1,7 @@
+langchain
+openai
+streamlit
+faiss-cpu
+tiktoken
+promptlayer
+streamlit-player

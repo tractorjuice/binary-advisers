@@ -1,10 +1,11 @@
-# Have an AI Chat with Binary Advisors
-Chat with Videos on ......
+# Have an AI Chat with Binary Advisers
+Chat with Videos on AI
 
-Chat with ........ is an AI-based application that allows you to interact with the content of videos about ...... using the OpenAI API. It utilizes the Streamlit framework to present an interactive user interface, making it easy for users to ask questions and get answers.
+Chat with Binary Advisers is an AI-based application that allows you to interact with the content of videos about AI using AI.\
+It utilizes the Streamlit framework to present an interactive user interface, making it easy for users to ask questions and get answers.
 \
 \
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://wardleygpt.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://binary-advisers-chat.streamlit.app/)
 
 ## Features
 - Querying the videos using natural language and AI.

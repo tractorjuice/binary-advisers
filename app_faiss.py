@@ -1,7 +1,7 @@
 import os
 import re
 import uuid
-import openai
+#import openai
 import promptlayer
 import streamlit as st
 from langchain.chat_models import ChatOpenAI
@@ -51,7 +51,7 @@ st.sidebar.markdown("# Query Videos using AI")
 st.sidebar.markdown("Current Version: 1.0.0")
 st.sidebar.divider()
 # Check if the user has provided an API key, otherwise default to the secret
-user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:", placeholder="sk-...", type="password")
+user_openai_api_key = st.sidebar.secrets("Enter your OpenAI API Key:", placeholder="sk-...", type="password")
 
 if user_openai_api_key:
     # If the user has provided an API key, use it

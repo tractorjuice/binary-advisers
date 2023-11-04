@@ -64,13 +64,14 @@ else:
 # Get datastore
 DATASTORE = "datastore"
 
-if os.path.exists(DATASTORE):
-    vector_store = FAISS.load_local(
-        DATASTORE,
-        OpenAIEmbeddings()
-    )
-else:
-    st.write(f"Missing files. Upload index.faiss and index.pkl files to {DATA_STORE_DIR} directory first")
+if user_openai_api_key:
+    if os.path.exists(DATASTORE):
+        vector_store = FAISS.load_local(
+            DATASTORE,
+            OpenAIEmbeddings()
+        )
+    else:
+        st.write(f"Missing files. Upload index.faiss and index.pkl files to {DATA_STORE_DIR} directory first")
 
 system_template="""
     As a chatbot, analyze the provided videos on AI and offer insights and recommendations.
@@ -111,32 +112,33 @@ for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-if query := st.chat_input("What question do you have for the videos?"):
-    st.session_state.messages.append({"role": "user", "content": query})
-    with st.chat_message("user"):
-        st.markdown(query)
-
-    with st.spinner():
-        with st.chat_message("assistant"):
-            response = chain(query)
-            st.markdown(response['answer'])
-            st.divider()
-            
-            source_documents = response['source_documents']
-            for index, document in enumerate(source_documents):
-                if 'source' in document.metadata:
-                    source_details = document.metadata['source']
-                    with st.expander(f"Source {index + 1}: {document.metadata['source']}"):
-                        st.write(f"Source {index + 1}: {document.metadata['source']}\n")
-                        st.write(f"Video title: {document.metadata['title']}")
-                        st.write(f"Video author: {document.metadata['author']}")
-                        st.write(f"Source video: https://youtu.be/{document.metadata['source_video']}?t={int(document.metadata['start_time'])}")
-                        st.write(f"Start Time: {document.metadata['start_time']}")
-                        
-                    cleaned_content = clean_text(document.page_content)
-                    st.write(f"Content: {cleaned_content}\n")
-                    video_id = f"Source video: https://youtu.be/{document.metadata['source_video']}?t={int(document.metadata['start_time'])}"
-                    key = f"video_{index}"
-                    st_player(video_id, height=150, key=key)
-
-        st.session_state.messages.append({"role": "assistant", "content": response['answer']})
+if user_openai_api_key:
+    if query := st.chat_input("What question do you have for the videos?"):
+        st.session_state.messages.append({"role": "user", "content": query})
+        with st.chat_message("user"):
+            st.markdown(query)
+    
+        with st.spinner():
+            with st.chat_message("assistant"):
+                response = chain(query)
+                st.markdown(response['answer'])
+                st.divider()
+                
+                source_documents = response['source_documents']
+                for index, document in enumerate(source_documents):
+                    if 'source' in document.metadata:
+                        source_details = document.metadata['source']
+                        with st.expander(f"Source {index + 1}: {document.metadata['source']}"):
+                            st.write(f"Source {index + 1}: {document.metadata['source']}\n")
+                            st.write(f"Video title: {document.metadata['title']}")
+                            st.write(f"Video author: {document.metadata['author']}")
+                            st.write(f"Source video: https://youtu.be/{document.metadata['source_video']}?t={int(document.metadata['start_time'])}")
+                            st.write(f"Start Time: {document.metadata['start_time']}")
+                            
+                        cleaned_content = clean_text(document.page_content)
+                        st.write(f"Content: {cleaned_content}\n")
+                        video_id = f"Source video: https://youtu.be/{document.metadata['source_video']}?t={int(document.metadata['start_time'])}"
+                        key = f"video_{index}"
+                        st_player(video_id, height=150, key=key)
+    
+            st.session_state.messages.append({"role": "assistant", "content": response['answer']})

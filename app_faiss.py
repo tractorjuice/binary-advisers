@@ -127,7 +127,7 @@ if user_openai_api_key:
                 st.divider()
                 
                 source_documents = response['source_documents']
-                for index, document in enumerate(source_documents):
+                for index, document in enumerate(source_documents[:4]): # Only show the first 4 sources
                     if 'source' in document.metadata:
                         source_details = document.metadata['source']
                         with st.expander(f"Source {index + 1}: {document.metadata['source']}"):

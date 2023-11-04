@@ -45,10 +45,10 @@ def clean_text(text):
     text = remove_markdown(text)
     return text
 
-st.set_page_config(page_title="Chat with Binary Advisers")
-st.title("Chat with Binary Advisers")
+st.set_page_config(page_title="Q&A with Binary Advisers")
+st.title("Q&A with Binary Advisers")
 st.sidebar.markdown("# Query Videos using AI")
-st.sidebar.markdown("Current Version: 1.0.0")
+st.sidebar.markdown("Current Version: 1.0.1")
 st.sidebar.divider()
 # Check if the user has provided an API key, otherwise default to the secret
 user_openai_api_key = st.sidebar.text_input("Enter your OpenAI API Key:", placeholder="sk-...", type="password")

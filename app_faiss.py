@@ -45,8 +45,8 @@ def clean_text(text):
     text = remove_markdown(text)
     return text
 
-st.set_page_config(page_title="Chat with Binary Advisors")
-st.title("Chat with Binary Advisors")
+st.set_page_config(page_title="Chat with Binary Advisers")
+st.title("Chat with Binary Advisers")
 st.sidebar.markdown("# Query Videos using AI")
 st.sidebar.markdown("Current Version: 1.0.0")
 st.sidebar.divider()

@@ -91,6 +91,7 @@ if user_openai_api_key:
 
     chain_type_kwargs = {"prompt": prompt}
     llm = PromptLayerChatOpenAI(
+        openai_api_key=user_openai_api_key,
         model_name=MODEL,
         temperature=0,
         max_tokens=1000,

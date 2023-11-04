@@ -61,18 +61,6 @@ if user_openai_api_key:
 else:
     st.warning("Please enter your OpenAI API key", icon="⚠️")
 
-# Get datastore
-DATASTORE = "datastore"
-
-if user_openai_api_key:
-    if os.path.exists(DATASTORE):
-        vector_store = FAISS.load_local(
-            DATASTORE,
-            OpenAIEmbeddings()
-        )
-    else:
-        st.write(f"Missing files. Upload index.faiss and index.pkl files to {DATA_STORE_DIR} directory first")
-
 system_template="""
     As a chatbot, analyze the provided videos on AI and offer insights and recommendations.
     Suggestions:
@@ -88,21 +76,33 @@ prompt_messages = [
     ]
 prompt = ChatPromptTemplate.from_messages(prompt_messages)
 
-chain_type_kwargs = {"prompt": prompt}
-llm = PromptLayerChatOpenAI(
-    model_name=MODEL,
-    temperature=0,
-    max_tokens=1000,
-    pl_tags=["binary-advisors-chat", st.session_state.session_id],
-)
+# Get datastore
+DATASTORE = "datastore"
 
-chain = RetrievalQAWithSourcesChain.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=vector_store.as_retriever(search_kwargs={"k": 50}),
-    return_source_documents=True,
-    chain_type_kwargs=chain_type_kwargs
-)
+if user_openai_api_key:
+    if os.path.exists(DATASTORE):
+        vector_store = FAISS.load_local(
+            DATASTORE,
+            OpenAIEmbeddings()
+        )
+    else:
+        st.write(f"Missing files. Upload index.faiss and index.pkl files to {DATA_STORE_DIR} directory first")
+
+    chain_type_kwargs = {"prompt": prompt}
+    llm = PromptLayerChatOpenAI(
+        model_name=MODEL,
+        temperature=0,
+        max_tokens=1000,
+        pl_tags=["binary-advisors-chat", st.session_state.session_id],
+    )
+
+    chain = RetrievalQAWithSourcesChain.from_chain_type(
+        llm=llm,
+        chain_type="stuff",
+        retriever=vector_store.as_retriever(search_kwargs={"k": 50}),
+        return_source_documents=True,
+        chain_type_kwargs=chain_type_kwargs
+    )
 
 if "messages" not in st.session_state:
     st.session_state.messages = []

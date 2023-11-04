@@ -101,7 +101,7 @@ if user_openai_api_key:
     chain = RetrievalQAWithSourcesChain.from_chain_type(
         llm=llm,
         chain_type="stuff",
-        retriever=vector_store.as_retriever(search_kwargs={"k": 50}),
+        retriever=vector_store.as_retriever(search_kwargs={"k": 100}),
         return_source_documents=True,
         chain_type_kwargs=chain_type_kwargs
     )
@@ -127,7 +127,7 @@ if user_openai_api_key:
                 st.divider()
                 
                 source_documents = response['source_documents']
-                for index, document in enumerate(source_documents[:4]): # Only show the first 4 sources
+                for index, document in enumerate(source_documents[:3]): # Only show the first 4 sources
                     if 'source' in document.metadata:
                         source_details = document.metadata['source']
                         with st.expander(f"Source {index + 1}: {document.metadata['source']}"):

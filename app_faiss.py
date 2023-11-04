@@ -11,10 +11,6 @@ from langchain.vectorstores import FAISS
 from langchain.prompts.chat import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 from streamlit_player import st_player
 
-# Set OpenAI Model and API key
-openai.api_key = st.secrets["OPENAI_API_KEY"]
-os.environ["PROMPTLAYER_API_KEY"] = st.secrets["PROMPTLAYER"]
-
 #MODEL = "gpt-3"
 #MODEL = "gpt-3.5-turbo"
 #MODEL = "gpt-3.5-turbo-0613"

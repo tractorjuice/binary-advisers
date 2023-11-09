@@ -35,11 +35,11 @@ if "retry_error" not in st.session_state:
 
 st.set_page_config(page_title="Binary Advisers")
 st.sidebar.title("Binary Advisers")
+st.sidebar.image("./BA_Logo3.jpg")
 st.sidebar.markdown("Current Version: 0.0.3")
 st.sidebar.markdown("Using gpt-4-1106-preview API")
 st.sidebar.markdown(st.session_state.session_id)
 st.sidebar.divider()
-add_logo("./BA_Logo3.jpg")
 
 if "assistant" not in st.session_state:
     openai.api_key = st.secrets["OPENAI_API_KEY"]

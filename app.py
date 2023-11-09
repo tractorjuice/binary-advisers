@@ -37,7 +37,7 @@ st.set_page_config(page_title="Binary Advisers")
 st.sidebar.title("Binary Advisers")
 st.sidebar.image("./BA_Logo3.jpg")
 st.sidebar.markdown("Version: 0.0.3")
-st.sidebar.markdown("Using gpt-4-1106-preview API")
+#st.sidebar.markdown("Using gpt-4-1106-preview API")
 #st.sidebar.markdown(st.session_state.session_id)
 st.sidebar.divider()
 

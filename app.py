@@ -4,7 +4,6 @@ import openai
 import uuid
 import time
 
-from openai import OpenAI
 client = OpenAI()
 
 #MODEL = "gpt-3.5-turbo"

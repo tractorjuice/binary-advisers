@@ -19,7 +19,7 @@ client = OpenAI()
 #MODEL = "gpt-4-32k-0613"
 MODEL = "gpt-4-1106-preview"
 #MODEL = "gpt-4-vision-preview"
-logo_url = ‘./image_url’
+#logo_url = ‘./image_url’
 
 if "session_id" not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())

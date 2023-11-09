@@ -1,7 +1,2 @@
-langchain
-openai==0.28.1
+openai
 streamlit
-faiss-cpu
-tiktoken
-promptlayer
-streamlit-player

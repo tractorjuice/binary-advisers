@@ -34,7 +34,7 @@ if "retry_error" not in st.session_state:
     st.session_state.retry_error = 0
 
 st.set_page_config(page_title="Binary Advisers")
-st.sidebar.image(logo_url)
+#st.sidebar.image(logo_url)
 st.sidebar.title("Binary Advisers")
 st.sidebar.divider()
 st.sidebar.markdown(Developed by Binary Advisers")

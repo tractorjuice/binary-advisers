@@ -35,7 +35,7 @@ if "retry_error" not in st.session_state:
 
 st.set_page_config(page_title="Binary Advisers")
 st.sidebar.title("Binary Advisers")
-st.sidebar.image("./logo.jpg")
+st.sidebar.image("./logo.png")
 st.sidebar.markdown("Version: 0.0.3")
 #st.sidebar.markdown("Using gpt-4-1106-preview API")
 #st.sidebar.markdown(st.session_state.session_id)
@@ -61,7 +61,7 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
         thread_id=st.session_state.thread.id
     )
 
-    st.sidebar.write("Messages:" ,st.session_state.messages)
+    #st.sidebar.write("Messages:" ,st.session_state.messages)
 
     for thread_message in st.session_state.messages.data:
         for message_content in thread_message.content:

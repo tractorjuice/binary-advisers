@@ -64,11 +64,10 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
     st.sidebar.write("Messages:" ,st.session_state.messages)
 
     processed_text = ""
-    for thread_message in st.session_state.messages:
+    for thread_message in st.session_state.messages.data:
         for message_content in thread_message.content:
-
-            # Extract the message content
-            message_content = message.content[0].text
+            # Access the actual text content
+            message_content = message_content.text.value
             annotations = message_content.annotations
             citations = []
             

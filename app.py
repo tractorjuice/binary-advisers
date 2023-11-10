@@ -86,9 +86,6 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
 
             # Add footnotes to the end of the message before displaying to user
             message_content.value += '\n' + '\n'.join(citations)
-            
-            # Add footnotes to the end of the message before displaying to user
-            message_content.value += '\n' + '\n'.join(citations)
         
     # Display messages
     for message in reversed(st.session_state.messages.data):

@@ -61,14 +61,8 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
         thread_id=st.session_state.thread.id
     )
 
-    # Retrieve the message object
-    message = client.beta.threads.messages.retrieve(
-      thread_id=st.session_state.thread.id,
-      message_id="..."
-    )
-
     # Extract the message content
-    message_content = message.content[0].text
+    message_content = st.session_state.messages.content[0].text
     annotations = message_content.annotations
     citations = []
     

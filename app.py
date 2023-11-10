@@ -92,10 +92,12 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
 
         # Append the processed text to processed_text
         processed_text += modified_text_content + '\n'
-
+        st.sidebar.write(processed_text)
+        
         # Append citations to the processed_text
         processed_text += '\n'.join(citations) + '\n'
-
+        st.sidebar.write(processed_text)
+        
     # Display messages
     for message in reversed(st.session_state.messages.data):
         if message.role in ["user", "assistant"]:

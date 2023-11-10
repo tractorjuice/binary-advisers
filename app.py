@@ -47,7 +47,7 @@ if "assistant" not in st.session_state:
     # Load the previously created assistant
     st.session_state.assistant = openai.beta.assistants.retrieve(st.secrets["OPENAI_ASSISTANT"])
 
-    # Create a new thread for this session
+    # Create a new thread for this assistant and session
     st.session_state.thread = client.beta.threads.create(
         metadata={
             'session_id': st.session_state.session_id,

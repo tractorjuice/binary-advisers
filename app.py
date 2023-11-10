@@ -61,6 +61,34 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
         thread_id=st.session_state.thread.id
     )
 
+    # Retrieve the message object
+    message = client.beta.threads.messages.retrieve(
+      thread_id=st.session_state.thread.id,
+      message_id="..."
+    )
+
+    # Extract the message content
+    message_content = message.content[0].text
+    annotations = message_content.annotations
+    citations = []
+    
+    # Iterate over the annotations and add footnotes
+    for index, annotation in enumerate(annotations):
+        # Replace the text with a footnote
+        message_content.value = message_content.value.replace(annotation.text, f' [{index}]')
+    
+        # Gather citations based on annotation attributes
+        if (file_citation := getattr(annotation, 'file_citation', None)):
+            cited_file = client.files.retrieve(file_citation.file_id)
+            citations.append(f'[{index}] {file_citation.quote} from {cited_file.filename}')
+        elif (file_path := getattr(annotation, 'file_path', None)):
+            cited_file = client.files.retrieve(file_path.file_id)
+            citations.append(f'[{index}] Click <here> to download {cited_file.filename}')
+            # Note: File download functionality not implemented above for brevity
+
+# Add footnotes to the end of the message before displaying to user
+message_content.value += '\n' + '\n'.join(citations)
+
     # Display messages
     for message in reversed(st.session_state.messages.data):
         if message.role in ["user", "assistant"]:

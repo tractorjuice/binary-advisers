@@ -5,7 +5,7 @@ Chat with Binary Advisers is an AI-based application that allows you to interact
 It utilizes the Streamlit framework to present an interactive user interface, making it easy for users to ask questions and get answers.
 \
 \
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://binary-advisers-chat.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://binaryadvisers.streamlit.app/)
 
 ## Features
 - Querying the videos using natural language and AI.
@@ -21,12 +21,8 @@ It utilizes the Streamlit framework to present an interactive user interface, ma
 ## Dependencies
 To run this code, you need the following Python packages:
 
-- os
-- re
 - openai
 - streamlit
-- langchain
-- FAISS
 
 ### API Keys
 The application uses the OpenAI API. You will need to obtain an API key from OpenAI and set it in the Streamlit secrets manager.
@@ -44,9 +40,8 @@ This application is developed by Mark Craddock. You can follow him on Twitter at
 The current version of this application is 0.1.4.
 
 ## Disclaimer
-This application is not optimized and may run out of OpenAI credits. Also, Wardley Mapping is provided courtesy of Simon Wardley and is licensed under Creative Commons Attribution Share-Alike.
-
+This application is using the OpenAI beta service, so may experience issues.
 Please use responsibly and in accordance with OpenAI's use-case policy.
 
 ## License
-This project is licensed under Creative Commons Attribution Share-Alike.
+This project is licensed under MIT.

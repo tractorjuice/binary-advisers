@@ -83,13 +83,13 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
     # Add footnotes to the end of the message before displaying to user
     message_content.value += '\n' + '\n'.join(citations)
     
-        # Display messages
-        for message in reversed(st.session_state.messages.data):
-            if message.role in ["user", "assistant"]:
-                with st.chat_message(message.role):
-                    for content_part in message.content:
-                        message_text = content_part.text.value
-                        st.markdown(message_text)
+    # Display messages
+    for message in reversed(st.session_state.messages.data):
+        if message.role in ["user", "assistant"]:
+            with st.chat_message(message.role):
+                for content_part in message.content:
+                    message_text = content_part.text.value
+                    st.markdown(message_text)
 
 if prompt := st.chat_input("How can I help you?"):
     with st.chat_message('user'):

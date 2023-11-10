@@ -64,23 +64,19 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
     st.sidebar.write("Messages:" ,st.session_state.messages)
 
     processed_text = ""
-    for thread_message in st.session_state.messages.data:
+    for thread_message in st.session_state.messages:
         for message_content in thread_message.content:
-            # Access the actual text content
-            text_content = message_content.text.value
 
-            # Initialize a variable to hold processed content for this message
-            modified_text_content = text_content
-    
-            # Process the text content (e.g., modify, add citations)
-            annotations = message_content.text.annotations
+            # Extract the message content
+            message_content = message.content[0].text
+            annotations = message_content.annotations
             citations = []
-    
+            
+            # Iterate over the annotations and add footnotes
             for index, annotation in enumerate(annotations):
-                # Replace the text with a footnote in modified_text_content
-                modified_text_content = modified_text_content.replace(annotation.text, f' [{index}]')
-    
-                
+                # Replace the text with a footnote
+                message_content.value = message_content.value.replace(annotation.text, f' [{index}]')
+            
                 # Gather citations based on annotation attributes
                 if (file_citation := getattr(annotation, 'file_citation', None)):
                     cited_file = client.files.retrieve(file_citation.file_id)
@@ -90,13 +86,11 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
                     citations.append(f'[{index}] Click <here> to download {cited_file.filename}')
                     # Note: File download functionality not implemented above for brevity
 
-        # Append the processed text to processed_text
-        processed_text += modified_text_content + '\n'
-        st.sidebar.write(processed_text)
-        
-        # Append citations to the processed_text
-        processed_text += '\n'.join(citations) + '\n'
-        st.sidebar.write(processed_text)
+            # Add footnotes to the end of the message before displaying to user
+            message_content.value += '\n' + '\n'.join(citations)
+            
+            # Add footnotes to the end of the message before displaying to user
+            message_content.value += '\n' + '\n'.join(citations)
         
     # Display messages
     for message in reversed(st.session_state.messages.data):

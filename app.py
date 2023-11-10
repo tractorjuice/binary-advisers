@@ -47,7 +47,7 @@ if "assistant" not in st.session_state:
     # Load the previously created assistant
     st.session_state.assistant = openai.beta.assistants.retrieve(st.secrets["OPENAI_ASSISTANT"])
 
-    # Create a new thread for this session
+    # Create a new thread for this assistant and session
     st.session_state.thread = client.beta.threads.create(
         metadata={
             'session_id': st.session_state.session_id,
@@ -61,6 +61,32 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
         thread_id=st.session_state.thread.id
     )
 
+    st.sidebar.write("Messages:" ,st.session_state.messages)
+
+    for thread_message in st.session_state.messages.data:
+        for message_content in thread_message.content:
+            # Access the actual text content
+            message_content = message_content.text
+            annotations = message_content.annotations
+            citations = []
+            
+            # Iterate over the annotations and add footnotes
+            for index, annotation in enumerate(annotations):
+                # Replace the text with a footnote
+                message_content.value = message_content.value.replace(annotation.text, f' [{index}]')
+            
+                # Gather citations based on annotation attributes
+                if (file_citation := getattr(annotation, 'file_citation', None)):
+                    cited_file = client.files.retrieve(file_citation.file_id)
+                    citations.append(f'[{index}] {file_citation.quote} from {cited_file.filename}')
+                elif (file_path := getattr(annotation, 'file_path', None)):
+                    cited_file = client.files.retrieve(file_path.file_id)
+                    citations.append(f'[{index}] Click <here> to download {cited_file.filename}')
+                    # Note: File download functionality not implemented above for brevity
+
+            # Add footnotes to the end of the message before displaying to user
+            message_content.value += '\n' + '\n'.join(citations)
+        
     # Display messages
     for message in reversed(st.session_state.messages.data):
         if message.role in ["user", "assistant"]:

@@ -66,7 +66,7 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
     processed_text = ""
     for thread_message in st.session_state.messages.data:
         for message_content in thread_message.content:
-            text_content = message_content.text.value
+            text_content = message_content.text.value  # Access the actual text content
             annotations = message_content.text.annotations
             citations = []
             
@@ -84,6 +84,7 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
                     cited_file = client.files.retrieve(file_path.file_id)
                     citations.append(f'[{index}] Click <here> to download {cited_file.filename}')
                     # Note: File download functionality not implemented above for brevity
+            processed_text += text_content + '\n'
 
     # Add footnotes to the end of the message before displaying to user
     message_content.value += '\n' + '\n'.join(citations)

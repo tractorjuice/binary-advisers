@@ -66,29 +66,36 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
     processed_text = ""
     for thread_message in st.session_state.messages.data:
         for message_content in thread_message.content:
-            text_content = message_content.text.value  # Access the actual text content
-            annotations = message_content.text.annotations
-            citations = []
-            
-            for index, annotation in enumerate(annotations):
-                # Process the annotations and citations
-                # Append processed content and citations to processed_text
+            # Access the actual text content
+            text_content = message_content.text.value
 
-                message_content.value = message_content.value.replace(annotation.text, f' [{index}]')
-            
-                # Gather citations based on annotation attributes
-                if (file_citation := getattr(annotation, 'file_citation', None)):
-                    cited_file = client.files.retrieve(file_citation.file_id)
-                    citations.append(f'[{index}] {file_citation.quote} from {cited_file.filename}')
-                elif (file_path := getattr(annotation, 'file_path', None)):
-                    cited_file = client.files.retrieve(file_path.file_id)
-                    citations.append(f'[{index}] Click <here> to download {cited_file.filename}')
-                    # Note: File download functionality not implemented above for brevity
-            processed_text += text_content + '\n'
+        # Initialize a variable to hold processed content for this message
+        modified_text_content = text_content
 
-    # Add footnotes to the end of the message before displaying to user
-    message_content.value += '\n' + '\n'.join(citations)
-    
+        # Process the text content (e.g., modify, add citations)
+        annotations = message_content.text.annotations
+        citations = []
+
+        for index, annotation in enumerate(annotations):
+            # Replace the text with a footnote in modified_text_content
+            modified_text_content = modified_text_content.replace(annotation.text, f' [{index}]')
+
+            
+            # Gather citations based on annotation attributes
+            if (file_citation := getattr(annotation, 'file_citation', None)):
+                cited_file = client.files.retrieve(file_citation.file_id)
+                citations.append(f'[{index}] {file_citation.quote} from {cited_file.filename}')
+            elif (file_path := getattr(annotation, 'file_path', None)):
+                cited_file = client.files.retrieve(file_path.file_id)
+                citations.append(f'[{index}] Click <here> to download {cited_file.filename}')
+                # Note: File download functionality not implemented above for brevity
+
+        # Append the processed text to processed_text
+        processed_text += modified_text_content + '\n'
+
+        # Append citations to the processed_text
+        processed_text += '\n'.join(citations) + '\n'
+
     # Display messages
     for message in reversed(st.session_state.messages.data):
         if message.role in ["user", "assistant"]:

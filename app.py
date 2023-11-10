@@ -63,16 +63,17 @@ elif hasattr(st.session_state.run, 'status') and st.session_state.run.status == 
 
     st.sidebar.write("Messages:" ,st.session_state.messages)
 
+    processed_text = ""
     for thread_message in st.session_state.messages.data:
-        # Each thread_message's content is a list of MessageContentText objects
-        for message_content in thread_message.content.text:
-
-            annotations = message_content.annotations
+        for message_content in thread_message.content:
+            text_content = message_content.text.value
+            annotations = message_content.text.annotations
             citations = []
             
-            # Iterate over the annotations and add footnotes
             for index, annotation in enumerate(annotations):
-                # Replace the text with a footnote
+                # Process the annotations and citations
+                # Append processed content and citations to processed_text
+
                 message_content.value = message_content.value.replace(annotation.text, f' [{index}]')
             
                 # Gather citations based on annotation attributes
